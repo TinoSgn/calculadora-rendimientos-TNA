@@ -21,148 +21,327 @@
         </p>
       </header>
 
+      <!-- Toggle entre Calculadora Simple y Simulación -->
       <section class="card">
-        <h2>Parámetros</h2>
-        <div class="grid">
-          <label class="field">
-            <span>Monto a invertir ($)</span>
-            <input
-              id="monto"
-              type="text"
-              inputmode="decimal"
-              value="100.000"
-              autocomplete="off"
-            />
-            <small class="muted"
-              >Se formatea con puntos (.) para miles automáticamente.</small
-            >
-          </label>
-
-          <label class="field">
-            <span>TNA manual (%)</span>
-            <input id="tnaManual" type="number" min="0" step="0.1" value="36" />
-            <small class="muted"
-              >Nominal anual. Se asume capitalización diaria para la
-              proyección.</small
-            >
-          </label>
-        </div>
-
-        <div class="row" style="margin-top: 10px">
-          <div class="row gap">
-            <button id="btnExport" class="btn">Exportar tabla (CSV)</button>
-            <button id="btnReset" class="btn">Reset</button>
-          </div>
+        <div class="mode-selector">
+          <button id="btnModeSimple" class="btn-mode active">
+            Calculadora Simple
+          </button>
+          <button id="btnModeSimulacion" class="btn-mode">
+            Simulación de Ahorros
+          </button>
         </div>
       </section>
 
-      <section class="card">
-        <h2>Resultados</h2>
-        <div class="results">
-          <div class="result">
-            <div class="label">TNA usada</div>
-            <div class="value"><span id="tnaUsada">–</span> %</div>
-            <div class="sub">Ingresada manualmente</div>
+      <!-- ========== MODO SIMPLE ========== -->
+      <div id="modoSimple">
+        <section class="card">
+          <h2>Parámetros</h2>
+          <div class="grid">
+            <label class="field">
+              <span>Monto a invertir ($)</span>
+              <input
+                id="monto"
+                type="text"
+                inputmode="decimal"
+                value="100.000"
+                autocomplete="off"
+              />
+              <small class="muted"
+                >Se formatea con puntos (.) para miles automáticamente.</small
+              >
+            </label>
+
+            <label class="field">
+              <span>TNA manual (%)</span>
+              <input id="tnaManual" type="text" value="36" autocomplete="off" />
+              <small class="muted"
+                >Nominal anual. Se asume capitalización diaria para la
+                proyección.</small
+              >
+            </label>
           </div>
-          <div class="result">
-            <div class="label">TEA (efectiva anual)</div>
-            <div class="value"><span id="tea">–</span> %</div>
-            <div class="sub">
-              Calculada: (1 + r<sub>d</sub>)<sup>365</sup> − 1
+
+          <div class="row" style="margin-top: 10px">
+            <div class="row gap">
+              <button id="btnExport" class="btn">Exportar tabla (CSV)</button>
+              <button id="btnReset" class="btn">Reset</button>
             </div>
           </div>
-          <div class="result">
-            <div class="label">Tasa diaria</div>
-            <div class="value"><span id="tasaDiaria">–</span> %</div>
-            <div class="sub">r<sub>d</sub> = TNA/365</div>
-          </div>
-          <div class="result">
-            <div class="label">Ganancia diaria</div>
-            <div class="value">$ <span id="gananciaDiaria">–</span></div>
-            <div class="sub">simple (sin reinvertir)</div>
-          </div>
-          <div class="result">
-            <div class="label">Ganancia mensual</div>
-            <div class="value">$ <span id="gananciaMensual">–</span></div>
-            <div class="sub">30 días con reinversión diaria</div>
-          </div>
-          <div class="result">
-            <div class="label">Ganancia anual</div>
-            <div class="value">$ <span id="gananciaAnual">–</span></div>
-            <div class="sub">365 días con reinversión diaria</div>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="card">
-        <div class="card-header-flex">
-          <h2>Proyección (Gráfico)</h2>
-          <div class="toggle">
-            <label
-              ><input
-                type="radio"
-                name="granularidad"
-                value="mensual"
-                checked
+        <section class="card">
+          <h2>Resultados</h2>
+          <div class="results">
+            <div class="result">
+              <div class="label">TNA usada</div>
+              <div class="value"><span id="tnaUsada">–</span> %</div>
+              <div class="sub">Ingresada manualmente</div>
+            </div>
+            <div class="result">
+              <div class="label">TEA (efectiva anual)</div>
+              <div class="value"><span id="tea">–</span> %</div>
+              <div class="sub">
+                Calculada: (1 + r<sub>d</sub>)<sup>365</sup> − 1
+              </div>
+            </div>
+            <div class="result">
+              <div class="label">Tasa diaria</div>
+              <div class="value"><span id="tasaDiaria">–</span> %</div>
+              <div class="sub">r<sub>d</sub> = TNA/365</div>
+            </div>
+            <div class="result">
+              <div class="label">Ganancia diaria</div>
+              <div class="value">$ <span id="gananciaDiaria">–</span></div>
+              <div class="sub">simple (sin reinvertir)</div>
+            </div>
+            <div class="result">
+              <div class="label">Ganancia mensual</div>
+              <div class="value">$ <span id="gananciaMensual">–</span></div>
+              <div class="sub">30 días con reinversión diaria</div>
+            </div>
+            <div class="result">
+              <div class="label">Ganancia anual</div>
+              <div class="value">$ <span id="gananciaAnual">–</span></div>
+              <div class="sub">365 días con reinversión diaria</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-header-flex">
+            <h2>Proyección (Gráfico)</h2>
+            <div class="toggle">
+              <label
+                ><input
+                  type="radio"
+                  name="granularidad"
+                  value="mensual"
+                  checked
+                />
+                Gráfico Mensual</label
+              >
+              <label
+                ><input type="radio" name="granularidad" value="diaria" />
+                Gráfico Diario</label
+              >
+            </div>
+          </div>
+          <canvas id="chart" height="120"></canvas>
+        </section>
+
+        <section class="card">
+          <div class="card-header-flex">
+            <h2>Tabla de proyección</h2>
+            <div class="toggle" style="margin-bottom: 0">
+              <label
+                ><input type="radio" name="tablaGran" value="mensual" checked />
+                Mensual (12 meses)</label
+              >
+              <label
+                ><input type="radio" name="tablaGran" value="diaria" /> Diaria
+                (30 días)</label
+              >
+            </div>
+          </div>
+
+          <div id="tablaContMensual">
+            <div class="table-wrap">
+              <table id="tablaMensual">
+                <thead>
+                  <tr>
+                    <th>Mes</th>
+                    <th>Saldo inicial</th>
+                    <th>Interés del mes</th>
+                    <th>Saldo final</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaBodyMensual"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="tablaContDiaria" style="display: none">
+            <div class="table-wrap">
+              <table id="tablaDiaria">
+                <thead>
+                  <tr>
+                    <th>Día</th>
+                    <th>Saldo inicial</th>
+                    <th>Interés del día</th>
+                    <th>Saldo final</th>
+                  </tr>
+                </thead>
+                <tbody id="tablaBodyDiaria"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- ========== MODO SIMULACIÓN ========== -->
+      <div id="modoSimulacion" style="display: none">
+        <section class="card">
+          <h2>Parámetros de Simulación</h2>
+          <div class="grid">
+            <label class="field">
+              <span>Dinero ahorrado inicial ($)</span>
+              <input
+                id="simDineroInicial"
+                type="text"
+                inputmode="decimal"
+                value="0"
+                autocomplete="off"
               />
-              Gráfico Mensual</label
-            >
-            <label
-              ><input type="radio" name="granularidad" value="diaria" /> Gráfico
-              Diario</label
-            >
-          </div>
-        </div>
-        <canvas id="chart" height="120"></canvas>
-      </section>
+              <small class="muted">Ahorro actual que tienes.</small>
+            </label>
 
-      <section class="card">
-        <div class="card-header-flex">
-          <h2>Tabla de proyección</h2>
-          <div class="toggle" style="margin-bottom: 0">
-            <label
-              ><input type="radio" name="tablaGran" value="mensual" checked />
-              Mensual (12 meses)</label
-            >
-            <label
-              ><input type="radio" name="tablaGran" value="diaria" /> Diaria (30
-              días)</label
-            >
-          </div>
-        </div>
+            <label class="field">
+              <span>Sueldo mensual ($)</span>
+              <input
+                id="simSueldo"
+                type="text"
+                inputmode="decimal"
+                value="500.000"
+                autocomplete="off"
+              />
+              <small class="muted">Tu sueldo mensual neto.</small>
+            </label>
 
-        <div id="tablaContMensual">
+            <label class="field">
+              <span>Gastos promedio mensuales ($)</span>
+              <input
+                id="simGastos"
+                type="text"
+                inputmode="decimal"
+                value="300.000"
+                autocomplete="off"
+              />
+              <small class="muted">Tus gastos mensuales habituales.</small>
+            </label>
+
+            <label class="field">
+              <span>TNA Mercado Pago (%)</span>
+              <input id="simTNA" type="text" value="36" autocomplete="off" />
+              <small class="muted">Tasa nominal anual de rendimientos.</small>
+            </label>
+
+            <label class="field">
+              <span>Gasto de vacaciones en Enero ($)</span>
+              <input
+                id="simGastoVacaciones"
+                type="text"
+                inputmode="decimal"
+                value="800.000"
+                autocomplete="off"
+              />
+              <small class="muted">Gasto extra que se suma en Enero.</small>
+            </label>
+          </div>
+
+          <div class="checkbox-field">
+            <label class="checkbox-label">
+              <input type="checkbox" id="simIncluirAguinaldo" checked />
+              <span
+                >Incluir aguinaldos automáticos en Junio y Diciembre (50% del
+                sueldo)</span
+              >
+            </label>
+          </div>
+
+          <div class="grid">
+            <label class="field">
+              <span>Meses a simular</span>
+              <input id="simMeses" type="number" min="1" max="60" value="12" />
+              <small class="muted">Cantidad de meses (1-60).</small>
+            </label>
+
+            <label class="field">
+              <span>Mes de inicio</span>
+              <input id="simMesInicio" type="month" />
+              <small class="muted"
+                >Déjalo vacío para comenzar el mes siguiente.</small
+              >
+            </label>
+          </div>
+
+          <div class="row" style="margin-top: 10px">
+            <div class="row gap">
+              <button id="btnSimular" class="btn btn-primary">
+                Simular Ahorros
+              </button>
+              <button id="btnExportSimulacion" class="btn">
+                Exportar (CSV)
+              </button>
+              <button id="btnResetSimulacion" class="btn">Reset</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="simResultados" style="display: none">
+          <h2>Resumen de Simulación</h2>
+          <div class="results">
+            <div class="result">
+              <div class="label">Saldo inicial</div>
+              <div class="value">$ <span id="simSaldoInicial">–</span></div>
+              <div class="sub">Al comenzar</div>
+            </div>
+            <div class="result">
+              <div class="label">Saldo final</div>
+              <div class="value">$ <span id="simSaldoFinal">–</span></div>
+              <div class="sub">
+                Después de <span id="simMesesTotal">–</span> meses
+              </div>
+            </div>
+            <div class="result">
+              <div class="label">Total intereses</div>
+              <div class="value">$ <span id="simTotalIntereses">–</span></div>
+              <div class="sub">Generados por inversión</div>
+            </div>
+            <div class="result">
+              <div class="label">Total ahorro neto</div>
+              <div class="value">$ <span id="simTotalAhorro">–</span></div>
+              <div class="sub">Ingresos - Gastos</div>
+            </div>
+            <div class="result">
+              <div class="label">Aguinaldos recibidos</div>
+              <div class="value"><span id="simAguinaldos">–</span></div>
+              <div class="sub">Junio y Diciembre</div>
+            </div>
+            <div class="result">
+              <div class="label">Gastos de vacaciones</div>
+              <div class="value">$ <span id="simVacaciones">–</span></div>
+              <div class="sub">Enero</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" id="simGrafico" style="display: none">
+          <h2>Evolución del Ahorro</h2>
+          <canvas id="chartSimulacion" height="120"></canvas>
+        </section>
+
+        <section class="card" id="simTabla" style="display: none">
+          <h2>Detalle Mensual</h2>
           <div class="table-wrap">
-            <table id="tablaMensual">
+            <table id="tablaSimulacion">
               <thead>
                 <tr>
                   <th>Mes</th>
+                  <th>Fecha</th>
                   <th>Saldo inicial</th>
-                  <th>Interés del mes</th>
+                  <th>Ingresos</th>
+                  <th>Gastos</th>
+                  <th>Intereses</th>
                   <th>Saldo final</th>
+                  <th>Eventos</th>
                 </tr>
               </thead>
-              <tbody id="tablaBodyMensual"></tbody>
+              <tbody id="tablaBodySimulacion"></tbody>
             </table>
           </div>
-        </div>
-
-        <div id="tablaContDiaria" style="display: none">
-          <div class="table-wrap">
-            <table id="tablaDiaria">
-              <thead>
-                <tr>
-                  <th>Día</th>
-                  <th>Saldo inicial</th>
-                  <th>Interés del día</th>
-                  <th>Saldo final</th>
-                </tr>
-              </thead>
-              <tbody id="tablaBodyDiaria"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       <footer>
         <p class="muted">
