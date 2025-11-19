@@ -2,9 +2,8 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Calculadora Rendimientos (TNA manual)</title>
+    <title>Calculadora Rendimientos Pro</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="stylesheet" href="style.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
@@ -14,29 +13,27 @@
   </head>
   <body>
     <main class="container">
-      <header>
-        <h1>Calculadora de Rendimientos (TNA manual)</h1>
+      <header class="fade-in-up">
+        <h1>Proyección Financiera</h1>
         <p class="muted">
-          Interés compuesto diario (30 días para mes, 365 para año).
+          Interés compuesto y simulaciones de ahorro inteligentes
         </p>
       </header>
 
-      <!-- Toggle entre Calculadora Simple y Simulación -->
-      <section class="card">
+      <section class="card fade-in-up" style="animation-delay: 0.1s">
         <div class="mode-selector">
           <button id="btnModeSimple" class="btn-mode active">
-            Calculadora Simple
+            Calculadora Rápida
           </button>
           <button id="btnModeSimulacion" class="btn-mode">
-            Simulación de Ahorros
+            Simulación Avanzada
           </button>
         </div>
       </section>
 
-      <!-- ========== MODO SIMPLE ========== -->
       <div id="modoSimple">
-        <section class="card">
-          <h2>Parámetros</h2>
+        <section class="card fade-in-up" style="animation-delay: 0.2s">
+          <h2>Parámetros de Inversión</h2>
           <div class="grid">
             <label class="field">
               <span>Monto a invertir ($)</span>
@@ -47,101 +44,94 @@
                 value="100.000"
                 autocomplete="off"
               />
-              <small class="muted"
-                >Se formatea con puntos (.) para miles automáticamente.</small
-              >
             </label>
 
             <label class="field">
               <span>TNA manual (%)</span>
               <input id="tnaManual" type="text" value="36" autocomplete="off" />
-              <small class="muted"
-                >Nominal anual. Se asume capitalización diaria para la
-                proyección.</small
-              >
             </label>
           </div>
 
-          <div class="row" style="margin-top: 10px">
+          <div class="row" style="margin-top: 24px">
             <div class="row gap">
-              <button id="btnExport" class="btn">Exportar tabla (CSV)</button>
-              <button id="btnReset" class="btn">Reset</button>
+              <button id="btnExport" class="btn">Descargar CSV</button>
+              <button id="btnReset" class="btn" style="color: #ff6b6b">
+                Reset
+              </button>
             </div>
           </div>
         </section>
 
-        <section class="card">
-          <h2>Resultados</h2>
+        <section class="card fade-in-up" style="animation-delay: 0.3s">
+          <h2>Resultados Estimados</h2>
           <div class="results">
             <div class="result">
               <div class="label">TNA usada</div>
-              <div class="value"><span id="tnaUsada">–</span> %</div>
-              <div class="sub">Ingresada manualmente</div>
+              <div class="value"><span id="tnaUsada">0</span>%</div>
+              <div class="sub">Nominal Anual</div>
             </div>
             <div class="result">
-              <div class="label">TEA (efectiva anual)</div>
-              <div class="value"><span id="tea">–</span> %</div>
-              <div class="sub">
-                Calculada: (1 + r<sub>d</sub>)<sup>365</sup> − 1
-              </div>
+              <div class="label">TEA Real</div>
+              <div class="value"><span id="tea">0</span>%</div>
+              <div class="sub">Efectiva Anual</div>
             </div>
             <div class="result">
-              <div class="label">Tasa diaria</div>
-              <div class="value"><span id="tasaDiaria">–</span> %</div>
-              <div class="sub">r<sub>d</sub> = TNA/365</div>
+              <div class="label">Tasa Diaria</div>
+              <div class="value"><span id="tasaDiaria">0</span>%</div>
+              <div class="sub">Interés por día</div>
             </div>
             <div class="result">
-              <div class="label">Ganancia diaria</div>
-              <div class="value">$ <span id="gananciaDiaria">–</span></div>
-              <div class="sub">simple (sin reinvertir)</div>
+              <div class="label">Ganancia Diaria</div>
+              <div class="value"><span id="gananciaDiaria">0</span></div>
             </div>
             <div class="result">
-              <div class="label">Ganancia mensual</div>
-              <div class="value">$ <span id="gananciaMensual">–</span></div>
-              <div class="sub">30 días con reinversión diaria</div>
+              <div class="label">Ganancia Mensual</div>
+              <div class="value"><span id="gananciaMensual">0</span></div>
+              <div class="sub">Reinversión diaria</div>
             </div>
             <div class="result">
-              <div class="label">Ganancia anual</div>
-              <div class="value">$ <span id="gananciaAnual">–</span></div>
-              <div class="sub">365 días con reinversión diaria</div>
+              <div class="label">Ganancia Anual</div>
+              <div class="value"><span id="gananciaAnual">0</span></div>
             </div>
           </div>
         </section>
 
-        <section class="card">
+        <section class="card fade-in-up" style="animation-delay: 0.4s">
           <div class="card-header-flex">
-            <h2>Proyección (Gráfico)</h2>
+            <h2>Gráfico de Proyección</h2>
             <div class="toggle">
-              <label
-                ><input
+              <label>
+                <input
                   type="radio"
                   name="granularidad"
                   value="mensual"
                   checked
                 />
-                Gráfico Mensual</label
-              >
-              <label
-                ><input type="radio" name="granularidad" value="diaria" />
-                Gráfico Diario</label
-              >
+                <span>Mensual</span>
+              </label>
+              <label>
+                <input type="radio" name="granularidad" value="diaria" />
+                <span>Diario</span>
+              </label>
             </div>
           </div>
-          <canvas id="chart" height="120"></canvas>
+          <div style="position: relative; height: 300px; width: 100%">
+            <canvas id="chart"></canvas>
+          </div>
         </section>
 
-        <section class="card">
+        <section class="card fade-in-up" style="animation-delay: 0.5s">
           <div class="card-header-flex">
-            <h2>Tabla de proyección</h2>
+            <h2>Tabla Detallada</h2>
             <div class="toggle" style="margin-bottom: 0">
-              <label
-                ><input type="radio" name="tablaGran" value="mensual" checked />
-                Mensual (12 meses)</label
-              >
-              <label
-                ><input type="radio" name="tablaGran" value="diaria" /> Diaria
-                (30 días)</label
-              >
+              <label>
+                <input type="radio" name="tablaGran" value="mensual" checked />
+                <span>12 Meses</span>
+              </label>
+              <label>
+                <input type="radio" name="tablaGran" value="diaria" />
+                <span>30 Días</span>
+              </label>
             </div>
           </div>
 
@@ -152,7 +142,7 @@
                   <tr>
                     <th>Mes</th>
                     <th>Saldo inicial</th>
-                    <th>Interés del mes</th>
+                    <th>Interés generado</th>
                     <th>Saldo final</th>
                   </tr>
                 </thead>
@@ -179,13 +169,12 @@
         </section>
       </div>
 
-      <!-- ========== MODO SIMULACIÓN ========== -->
       <div id="modoSimulacion" style="display: none">
-        <section class="card">
-          <h2>Parámetros de Simulación</h2>
+        <section class="card fade-in-up">
+          <h2>Configurar Simulación</h2>
           <div class="grid">
             <label class="field">
-              <span>Dinero ahorrado inicial ($)</span>
+              <span>Dinero Actual ($)</span>
               <input
                 id="simDineroInicial"
                 type="text"
@@ -193,11 +182,10 @@
                 value="0"
                 autocomplete="off"
               />
-              <small class="muted">Ahorro actual que tienes.</small>
             </label>
 
             <label class="field">
-              <span>Sueldo mensual ($)</span>
+              <span>Sueldo Mensual ($)</span>
               <input
                 id="simSueldo"
                 type="text"
@@ -205,11 +193,10 @@
                 value="500.000"
                 autocomplete="off"
               />
-              <small class="muted">Tu sueldo mensual neto.</small>
             </label>
 
             <label class="field">
-              <span>Gastos promedio mensuales ($)</span>
+              <span>Gastos Mensuales ($)</span>
               <input
                 id="simGastos"
                 type="text"
@@ -217,17 +204,15 @@
                 value="300.000"
                 autocomplete="off"
               />
-              <small class="muted">Tus gastos mensuales habituales.</small>
             </label>
 
             <label class="field">
-              <span>TNA Mercado Pago (%)</span>
+              <span>TNA Estimada (%)</span>
               <input id="simTNA" type="text" value="36" autocomplete="off" />
-              <small class="muted">Tasa nominal anual de rendimientos.</small>
             </label>
 
             <label class="field">
-              <span>Gasto de vacaciones en Enero ($)</span>
+              <span>Vacaciones (Enero) ($)</span>
               <input
                 id="simGastoVacaciones"
                 type="text"
@@ -235,105 +220,99 @@
                 value="800.000"
                 autocomplete="off"
               />
-              <small class="muted">Gasto extra que se suma en Enero.</small>
             </label>
           </div>
 
           <div class="checkbox-field">
             <label class="checkbox-label">
               <input type="checkbox" id="simIncluirAguinaldo" checked />
-              <span
-                >Incluir aguinaldos automáticos en Junio y Diciembre (50% del
-                sueldo)</span
-              >
+              <span>Incluir aguinaldos automáticos (Junio y Diciembre)</span>
             </label>
           </div>
 
           <div class="grid">
             <label class="field">
-              <span>Meses a simular</span>
+              <span>Duración (meses)</span>
               <input id="simMeses" type="number" min="1" max="60" value="12" />
-              <small class="muted">Cantidad de meses (1-60).</small>
             </label>
 
             <label class="field">
               <span>Mes de inicio</span>
               <input id="simMesInicio" type="month" />
-              <small class="muted"
-                >Déjalo vacío para comenzar el mes siguiente.</small
-              >
+              <small>Opcional (por defecto mes siguiente)</small>
             </label>
           </div>
 
-          <div class="row" style="margin-top: 10px">
-            <div class="row gap">
-              <button id="btnSimular" class="btn btn-primary">
-                Simular Ahorros
-              </button>
-              <button id="btnExportSimulacion" class="btn">
-                Exportar (CSV)
-              </button>
-              <button id="btnResetSimulacion" class="btn">Reset</button>
-            </div>
+          <div class="row" style="margin-top: 24px">
+            <button id="btnSimular" class="btn btn-primary">
+              Simular Ahorros
+            </button>
+            <button id="btnExportSimulacion" class="btn">Exportar CSV</button>
+            <button id="btnResetSimulacion" class="btn" style="color: #ff6b6b">
+              Reset
+            </button>
           </div>
         </section>
 
         <section class="card" id="simResultados" style="display: none">
-          <h2>Resumen de Simulación</h2>
+          <h2>Resultados de la Simulación</h2>
           <div class="results">
             <div class="result">
-              <div class="label">Saldo inicial</div>
-              <div class="value">$ <span id="simSaldoInicial">–</span></div>
-              <div class="sub">Al comenzar</div>
+              <div class="label">Saldo Inicial</div>
+              <div class="value"><span id="simSaldoInicial">0</span></div>
             </div>
-            <div class="result">
-              <div class="label">Saldo final</div>
-              <div class="value">$ <span id="simSaldoFinal">–</span></div>
+            <div class="result" style="border-color: var(--accent)">
+              <div class="label">Saldo Final</div>
+              <div class="value" style="font-size: 2.2rem">
+                <span id="simSaldoFinal">0</span>
+              </div>
               <div class="sub">
-                Después de <span id="simMesesTotal">–</span> meses
+                Al finalizar los <span id="simMesesTotal">0</span> meses
               </div>
             </div>
             <div class="result">
-              <div class="label">Total intereses</div>
-              <div class="value">$ <span id="simTotalIntereses">–</span></div>
-              <div class="sub">Generados por inversión</div>
+              <div class="label">Total Intereses</div>
+              <div class="value"><span id="simTotalIntereses">0</span></div>
+              <div class="sub">Ganancia pasiva</div>
             </div>
             <div class="result">
-              <div class="label">Total ahorro neto</div>
-              <div class="value">$ <span id="simTotalAhorro">–</span></div>
-              <div class="sub">Ingresos - Gastos</div>
+              <div class="label">Ahorro Neto</div>
+              <div class="value"><span id="simTotalAhorro">0</span></div>
+              <div class="sub">Sueldo - Gastos</div>
             </div>
             <div class="result">
-              <div class="label">Aguinaldos recibidos</div>
-              <div class="value"><span id="simAguinaldos">–</span></div>
-              <div class="sub">Junio y Diciembre</div>
+              <div class="label">Aguinaldos</div>
+              <div class="value"><span id="simAguinaldos">0</span></div>
             </div>
             <div class="result">
-              <div class="label">Gastos de vacaciones</div>
-              <div class="value">$ <span id="simVacaciones">–</span></div>
-              <div class="sub">Enero</div>
+              <div class="label">Costo Vacaciones</div>
+              <div class="value" style="color: #ff6b6b">
+                <span id="simVacaciones" style="color: #ff6b6b">0</span>
+              </div>
             </div>
           </div>
         </section>
 
         <section class="card" id="simGrafico" style="display: none">
-          <h2>Evolución del Ahorro</h2>
-          <canvas id="chartSimulacion" height="120"></canvas>
+          <h2>Evolución Patrimonial</h2>
+          <div style="position: relative; height: 300px; width: 100%">
+            <canvas id="chartSimulacion"></canvas>
+          </div>
         </section>
 
         <section class="card" id="simTabla" style="display: none">
-          <h2>Detalle Mensual</h2>
+          <h2>Flujo de Fondos</h2>
           <div class="table-wrap">
             <table id="tablaSimulacion">
               <thead>
                 <tr>
                   <th>Mes</th>
                   <th>Fecha</th>
-                  <th>Saldo inicial</th>
+                  <th>Inicial</th>
                   <th>Ingresos</th>
                   <th>Gastos</th>
                   <th>Intereses</th>
-                  <th>Saldo final</th>
+                  <th>Final</th>
                   <th>Eventos</th>
                 </tr>
               </thead>
@@ -344,9 +323,8 @@
       </div>
 
       <footer>
-        <p class="muted">
-          Este mini proyecto usa HTML/CSS/JS puro + Chart.js. No requiere
-          backend.
+        <p class="muted" style="opacity: 0.5; font-size: 0.8rem">
+          Cálculo local. No se envían datos.
         </p>
       </footer>
     </main>
